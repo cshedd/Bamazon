@@ -6,7 +6,7 @@ var connection = mysql.createConnection({
 	host: "localhost",
 	port: 3306,
 	user: "root",
-	password: "gayle92",
+	password: "",
 	database: "bamazon_db"
 });
 
@@ -40,7 +40,7 @@ function displayInventory() {
 			]).then(function(order) {
 				var quantity = order.quantity;
 				var itemId = order.id;
-				connection.query('SELECT * FROM Products WHERE id=' + itemId, function(err, selectedItem){
+				connection.query('SELECT * FROM Products WHERE id= ' + itemId, function(err, selectedItem){
 					if (err) throw err;
 					if (selectedItem[0].StockQuantity - quantity >= 0) {
 						console.log("Our inventory has enough of that item " + (selectedItem[0].ProductName) + "!");
@@ -48,7 +48,7 @@ function displayInventory() {
 						console.log("Your total equals " + (order.quantity * selectedItem[0].Price) + " dollars. Thank you for shopping on Bamazon!");
 						
 						//To update the inventory and remove purchased item 
-						connection.query('UPDATE Products SET StockQuantity ? WHERE id ?', (selectedItem[0].StockQuantity - quantity, itemId),
+						connection.query('UPDATE Products SET StockQuantity=? WHERE id=?', (selectedItem[0].StockQuantity - quantity, itemId),
 						function(err, inventory) {
 							if (err) throw err;
 
