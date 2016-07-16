@@ -48,7 +48,7 @@ function displayInventory() {
 						console.log("Your total equals " + (order.quantity * selectedItem[0].Price) + " dollars. Thank you for shopping on Bamazon!");
 						
 						//To update the inventory and remove purchased item 
-						connection.query('UPDATE Products SET StockQuantity=? WHERE id?', [selectedItem[0].StockQuantity - quantity, itemId],
+						connection.query('UPDATE Products SET StockQuantity ? WHERE id ?', (selectedItem[0].StockQuantity - quantity, itemId),
 						function(err, inventory) {
 							if (err) throw err;
 
