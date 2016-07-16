@@ -6,13 +6,13 @@ var connection = mysql.createConnection({
 	host: "localhost",
 	port: 3306,
 	user: "root",
-	password: "",
+	password: "gayle92",
 	database: "bamazon_db"
 });
 
 connection.connect(function(err) {
 	if (err) throw err;
-	console.log("connected as id" + connection.threadID);
+	// console.log("connected as id" + connection.threadID);
 });
 
 
@@ -22,7 +22,7 @@ function displayInventory() {
 		if (err) throw err;
 		console.log("Inventory");
 		for(var i = 0; i < inventory.length; i++){
-			console.log("Item ID: " + inventory[i].id + " | Product: " + inventory[i].ProductName + " | Department: " + inventory[i].DepartmentName + " | Price" + inventory[i].Price + " | Quantity: " + inventory[i].StockQuantity);
+			console.log("Item ID: " + inventory[i].id + " | Product: " + inventory[i].ProductName + " | Department: " + inventory[i].DepartmentName + " | Price: " + inventory[i].Price + " | Quantity: " + inventory[i].StockQuantity);
 		}
 
 		inquirer.prompt([
@@ -40,10 +40,10 @@ function displayInventory() {
 			]).then(function(order) {
 				var quantity = order.quantity;
 				var itemId = order.id;
-				connection.query('SELECT * FROM Products WHERE id=' + itemID, function(err, selectedItem){
+				connection.query('SELECT * FROM Products WHERE id=' + itemId, function(err, selectedItem){
 					if (err) throw err;
 					if (selectedItem[0].StockQuantity - quantity >= 0) {
-						console.log("Our inventory has enough of that item" + (selectedItem[0].ProductName) + " !");
+						console.log("Our inventory has enough of that item " + (selectedItem[0].ProductName) + "!");
 						console.log("Quantity in stock: " + selectedItem[0].StockQuantity + " Order Quantity: " + quantity);
 						console.log("Your total equals " + (order.quantity * selectedItem[0].Price) + " dollars. Thank you for shopping on Bamazon!");
 						
